@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rabiscoo — App para iPad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --yellow:   #FED030;
+  --yellow-d: #e8bc1a;
+  --purple:   #6c63ff;
+  --purple-d: #4e46d4;
+  --red:      #ef4444;
+  --green:    #22c55e;
+  --bg:       #fdf9ef;
+  --ink:      #1a1400;
+  --ink2:     #4a4020;
+  --muted:    #9a8f60;
+  --card-bg:  #ffffff;
+  --radius:   20px;
+  --font-display: 'Baloo 2', cursive;
+  --font-body:    'Nunito', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: .5;
+}
+
+/* ── LAYOUT ── */
+.page { position: relative; z-index: 1; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   HERO
+━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0;
+  padding: 0 6vw;
+  position: relative;
+  overflow: hidden;
+}
+
+/* blob background */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 65vw; height: 65vw;
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  background: var(--yellow);
+  opacity: .18;
+  animation: blobmove 10s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -15%; left: -8%;
+  width: 45vw; height: 45vw;
+  border-radius: 40% 60% 45% 55% / 60% 40% 60% 40%;
+  background: var(--purple);
+  opacity: .09;
+  animation: blobmove2 13s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes blobmove  { from{transform:rotate(0deg) scale(1)} to{transform:rotate(20deg) scale(1.08)} }
+@keyframes blobmove2 { from{transform:rotate(0deg) scale(1)} to{transform:rotate(-15deg) scale(1.1)} }
+
+.hero-text { position: relative; z-index: 3; padding: 80px 0; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--yellow);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #7c4f00;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  animation: fadein .6s ease both;
+}
+.hero-badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #b8760a;
+  animation: pulse-dot 1.5s ease infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.5); opacity: .6; }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5.5vw, 72px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ink);
+  letter-spacing: -1.5px;
+  animation: fadein .7s .1s ease both;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--purple);
+  position: relative;
+}
+.hero-title em::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 0; right: 0;
+  height: 5px;
+  background: var(--yellow);
+  border-radius: 3px;
+  z-index: -1;
+}
+
+.hero-sub {
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 600;
+  color: var(--ink2);
+  line-height: 1.65;
+  margin-top: 18px;
+  max-width: 480px;
+  animation: fadein .7s .2s ease both;
+}
+
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+  animation: fadein .7s .3s ease both;
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 15px 28px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .15s, box-shadow .15s, background .15s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  letter-spacing: .2px;
+}
+.btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+  background: #2a2000;
+}
+.btn-download:active { transform: scale(.97); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: var(--ink2);
+  border: 2px solid rgba(0,0,0,0.15);
+  border-radius: 16px;
+  padding: 13px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .15s, background .15s;
+}
+.btn-secondary:hover { border-color: var(--purple); background: rgba(108,99,255,.05); color: var(--purple); }
+
+.hero-note {
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadein .7s .4s ease both;
+}
+
+/* ── IPAD MOCKUP ── */
+.hero-visual {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  animation: fadein .8s .2s ease both;
+}
+
+.ipad-wrap {
+  position: relative;
+  width: min(420px, 40vw);
+  filter: drop-shadow(0 32px 64px rgba(0,0,0,0.22));
+}
+.ipad-frame {
+  background: #1c1c1e;
+  border-radius: 28px;
+  padding: 14px;
+  position: relative;
+  aspect-ratio: 3/4;
+}
+.ipad-frame::before {
+  content: '';
+  position: absolute;
+  top: 7px; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 4px;
+  background: #2a2a2c;
+  border-radius: 3px;
+}
+.ipad-screen {
+  background: #f0f4ff;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 3/4;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* mini app preview inside iPad */
+.mini-adult {
+  background: var(--yellow);
+  padding: 12px 14px 10px;
+  flex-shrink: 0;
+}
+.mini-card {
+  background: rgba(255,255,255,.5);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.mini-timer {
+  height: 5px;
+  background: rgba(0,0,0,.1);
+  border-radius: 99px;
+  margin-top: 7px;
+  overflow: hidden;
+}
+.mini-timer-fill {
+  height: 100%;
+  width: 65%;
+  background: #7c4f00;
+  border-radius: 99px;
+  animation: timerloop 4s ease-in-out infinite alternate;
+}
+@keyframes timerloop { from{width:100%} to{width:10%} }
+
+.mini-child {
+  flex: 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mini-canvas {
+  flex: 1;
+  background: #fff;
+  border-radius: 10px;
+  border: 2px dashed #c8d4f5;
+  position: relative;
+  overflow: hidden;
+}
+.mini-drawing {
+  position: absolute; inset: 0;
+}
+.mini-toolbar {
+  height: 28px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1.5px solid #dde5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+.mini-color {
+  width: 14px; height: 14px; border-radius: 50%;
+}
+.mini-btns { display: flex; gap: 5px; flex-shrink: 0; }
+.mini-btn-g {
+  flex: 1; height: 22px;
+  background: #22c55e;
+  border-radius: 6px;
+  font-size: 7px; font-weight: 800; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.mini-btn-r {
+  flex: 1; height: 22px;
+  background: rgba(220,38,38,.57);
+  border: 1.5px solid #ef4444;
+  border-radius: 6px;
+  font-size: 7px; font-weight: 800; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* floating elements around iPad */
+.float-badge {
+  position: absolute;
+  background: #fff;
+  border-radius: 14px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.13);
+  white-space: nowrap;
+}
+.float-badge .fb-ico { font-size: 18px; }
+
+.float1 { top: 2%; right: -4%; animation: float1 5s ease-in-out infinite alternate; z-index: 1; }
+.float2 { bottom: 22%; left: -4%; animation: float2 6s ease-in-out infinite alternate; z-index: 1; }
+.float3 { bottom: 4%; right: -4%; animation: float1 7s 1s ease-in-out infinite alternate; z-index: 1; }
+
+@keyframes float1 { from{transform:translateY(0) rotate(-2deg)} to{transform:translateY(-10px) rotate(2deg)} }
+@keyframes float2 { from{transform:translateY(0) rotate(2deg)} to{transform:translateY(-12px) rotate(-2deg)} }
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   FEATURES STRIP
+━━━━━━━━━━━━━━━━━━━━━ */
+.strip {
+  background: var(--ink);
+  padding: 18px 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 60px);
+  flex-wrap: wrap;
+  overflow: hidden;
+  position: relative;
+}
+.strip-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255,255,255,.75);
+  white-space: nowrap;
+}
+.strip-item .si-ico { font-size: 18px; }
+.strip-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,.25); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   HOW IT WORKS
+━━━━━━━━━━━━━━━━━━━━━ */
+.section { padding: 90px 6vw; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: -1px;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.step-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.09);
+}
+.step-card::before {
+  content: attr(data-num);
+  position: absolute;
+  top: -10px; right: 16px;
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 900;
+  color: var(--yellow);
+  opacity: .35;
+  line-height: 1;
+  pointer-events: none;
+}
+.step-icon { font-size: 36px; margin-bottom: 14px; }
+.step-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink2);
+  line-height: 1.6;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   LEVELS SECTION
+━━━━━━━━━━━━━━━━━━━━━ */
+.levels-section {
+  background: var(--ink);
+  padding: 90px 6vw;
+  position: relative;
+  overflow: hidden;
+}
+.levels-section::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -5%;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: var(--purple);
+  opacity: .07;
+  pointer-events: none;
+}
+
+.levels-section .section-label { color: var(--yellow); }
+.levels-section .section-title { color: #fff; max-width: 100%; }
+
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+.level-card {
+  border-radius: var(--radius);
+  padding: 28px 22px;
+  border: 1.5px solid rgba(255,255,255,.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s, border-color .2s;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.18);
+}
+.level-card-1 { background: #2a2500; }
+.level-card-2 { background: #2a1800; }
+.level-card-3 { background: #20101a; }
+
+.level-emoji { font-size: 40px; margin-bottom: 14px; }
+.level-badge-pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-bottom: 10px;
+}
+.lvl1 .level-badge-pill { background: rgba(254,208,48,.15); color: var(--yellow); }
+.lvl2 .level-badge-pill { background: rgba(249,115,22,.15); color: #fb923c; }
+.lvl3 .level-badge-pill { background: rgba(239,68,68,.15);  color: #f87171; }
+
+.level-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.level-card-desc {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,.5);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.level-card-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.example-chip {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,.6);
+}
+.level-timer-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,.35);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   TIPS / PEDAGOGY
+━━━━━━━━━━━━━━━━━━━━━ */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.tip-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  border: 1.5px solid rgba(0,0,0,0.06);
+  transition: transform .2s, box-shadow .2s;
+}
+.tip-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.07); }
+.tip-icon { font-size: 30px; margin-bottom: 12px; }
+.tip-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.tip-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+  line-height: 1.65;
+}
+.tip-quote {
+  background: #f5f3ff;
+  border-left: 3px solid var(--purple);
+  border-radius: 0 8px 8px 0;
+  padding: 7px 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  font-style: italic;
+  color: #5a4faa;
+  font-weight: 700;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   CTA DOWNLOAD
+━━━━━━━━━━━━━━━━━━━━━ */
+.cta-section {
+  background: var(--yellow);
+  padding: 90px 6vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '✏️';
+  position: absolute;
+  font-size: 200px;
+  opacity: .07;
+  top: -20px; right: 40%;
+  pointer-events: none;
+  transform: rotate(-15deg);
+}
+.cta-text .section-label { color: #7c4f00; }
+.cta-text .section-title { color: var(--ink); margin-bottom: 20px; }
+.cta-desc {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink2);
+  line-height: 1.65;
+  margin-bottom: 28px;
+  max-width: 440px;
+}
+.cta-btns { display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+
+.download-card {
+  background: var(--ink);
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+}
+.download-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.28); }
+.download-card:active { transform: scale(.98); }
+.dc-icon { font-size: 32px; flex-shrink: 0; }
+.dc-text { flex: 1; }
+.dc-small { font-size: 11px; color: rgba(255,255,255,.5); font-weight: 700; letter-spacing: .3px; }
+.dc-big { font-size: 18px; font-weight: 900; color: #fff; font-family: var(--font-display); }
+.dc-arrow { color: rgba(255,255,255,.35); font-size: 20px; }
+
+.qr-box {
+  background: rgba(255,255,255,0.55);
+  border-radius: 20px;
+  padding: 28px 28px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border: 2px dashed rgba(0,0,0,.18);
+  max-width: 260px;
+  transition: border-color .2s, background .2s;
+}
+.qr-box:hover { border-color: rgba(0,0,0,.35); background: rgba(255,255,255,0.7); }
+.qr-grid {
+  width: 120px; height: 120px;
+  background: var(--ink);
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  padding: 10px;
+  gap: 3px;
+}
+.qr-cell { border-radius: 2px; background: transparent; }
+.qr-cell.on { background: #fff; }
+.qr-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: .3px;
+}
+.qr-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink2);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.cta-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+.device-spec {
+  background: rgba(255,255,255,.55);
+  border-radius: 14px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink2);
+  border: 1.5px solid rgba(255,255,255,.8);
+  width: 100%;
+  max-width: 360px;
+}
+.ds-icon { font-size: 24px; flex-shrink: 0; }
+.ds-info { flex: 1; }
+.ds-name { font-weight: 900; color: var(--ink); font-size: 14px; }
+.ds-check { color: var(--green); font-weight: 900; font-size: 15px; }
+.ds-version {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  border-radius: 6px;
+  padding: 2px 7px;
+  letter-spacing: .3px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━ */
+footer {
+  background: var(--ink);
+  padding: 36px 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+}
+.footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  text-decoration: none;
+  transition: color .15s;
+}
+.footer-links a:hover { color: rgba(255,255,255,.8); }
+.footer-copy {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,.25);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   ANIMATIONS & UTILS
+━━━━━━━━━━━━━━━━━━━━━ */
+@keyframes fadein { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE — iPad 11" (834px landscape/portrait)
+━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 1024px) {
+  .hero { padding: 0 5vw; gap: 20px; }
+  .ipad-wrap { width: min(360px, 42vw); }
+  .steps-grid, .levels-grid, .tips-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .cta-section { grid-template-columns: 1fr 1fr; gap: 30px; }
+}
+
+@media (max-width: 834px) {
+  /* iPad 11" portrait */
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 60px 6vw 40px;
+    min-height: auto;
+  }
+  .hero-text { padding: 0; order: 2; }
+  .hero-visual { order: 1; padding: 40px 0 20px; }
+  .ipad-wrap { width: min(280px, 55vw); }
+  .hero-sub { margin: 14px auto 0; }
+  .hero-cta-row { justify-content: center; }
+  .hero-note { justify-content: center; }
+  .hero-badge { margin: 0 auto 18px; }
+
+  .steps-grid { grid-template-columns: 1fr; gap: 12px; }
+  .levels-grid { grid-template-columns: 1fr; gap: 12px; }
+  .tips-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  .cta-section { grid-template-columns: 1fr; }
+  .cta-btns { max-width: 100%; }
+  .cta-visual { width: 100%; }
+
+  footer { justify-content: center; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 50px 5vw 30px; }
+  .section { padding: 60px 5vw; }
+  .levels-section, .cta-section { padding: 60px 5vw; }
+  .strip { gap: 16px; padding: 14px 5vw; }
+  .strip-dot { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ━━━━━━━━ HERO ━━━━━━━━ -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Rabiscoo — Disponível para iPad
+      </div>
+      <h1 class="hero-title">
+        Aprender a<br><em>pensar</em> desenhando
+      </h1>
+      <p class="hero-sub">
+        Um jogo colaborativo para adultos e crianças de 5 a 7 anos. O adulto lê a carta, a criança interpreta e desenha. Simples, lúdico e cheio de aprendizado.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#como-funciona" class="btn-download">Ver como funciona →</a>
+      </div>
+      <div class="hero-note">
+        🆓 Grátis &nbsp;·&nbsp; 🎨 Sem anúncios &nbsp;·&nbsp; 📵 Sem internet necessária
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="ipad-wrap">
+        <!-- Floating badges -->
+        <div class="float-badge float1">
+          <span class="fb-ico">⭐</span>
+          <span>3 níveis de dificuldade</span>
+        </div>
+        <div class="float-badge float2">
+          <span class="fb-ico">✏️</span>
+          <span>Quadro de desenho</span>
+        </div>
+        <div class="float-badge float3">
+          <span class="fb-ico">🏆</span>
+          <span>Sistema de estrelas</span>
+        </div>
+
+        <div class="ipad-frame">
+          <div class="ipad-screen">
+            <!-- Adult zone -->
+            <div class="mini-adult">
+              <div style="font-size:7px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(0,0,0,0.4);margin-bottom:5px">Adulto</div>
+              <div class="mini-card">Animal que mia 🐱</div>
+              <div class="mini-timer"><div class="mini-timer-fill"></div></div>
+            </div>
+            <!-- Child zone -->
+            <div class="mini-child">
+              <div style="font-size:7px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#8896c0">Criança</div>
+              <div class="mini-canvas">
+                <svg class="mini-drawing" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Simple cat drawing -->
+                  <circle cx="50" cy="48" r="22" fill="none" stroke="#6c63ff" stroke-width="3" stroke-linecap="round"/>
+                  <polygon points="33,32 28,18 40,28" fill="#6c63ff"/>
+                  <polygon points="67,32 72,18 60,28" fill="#6c63ff"/>
+                  <circle cx="42" cy="45" r="3" fill="#6c63ff"/>
+                  <circle cx="58" cy="45" r="3" fill="#6c63ff"/>
+                  <path d="M44 56 Q50 62 56 56" fill="none" stroke="#6c63ff" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="30" y1="52" x2="18" y2="48" stroke="#6c63ff" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="30" y1="55" x2="17" y2="55" stroke="#6c63ff" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="70" y1="52" x2="82" y2="48" stroke="#6c63ff" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="70" y1="55" x2="83" y2="55" stroke="#6c63ff" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="mini-toolbar">
+                <span style="font-size:10px">✏️</span>
+                <div class="mini-color" style="background:#6c63ff"></div>
+                <div class="mini-color" style="background:#ef4444"></div>
+                <div class="mini-color" style="background:#22c55e"></div>
+                <div class="mini-color" style="background:#fbbf24"></div>
+              </div>
+              <div class="mini-btns">
+                <div class="mini-btn-g">✓ Acertou!</div>
+                <div class="mini-btn-r">↩ Tentar</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━━━━━━ STRIP ━━━━━━━━ -->
+  <div class="strip">
+    <div class="strip-item"><span class="si-ico">🎨</span> Quadro de desenho livre</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item"><span class="si-ico">🃏</span> 30 cartas por nível</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item"><span class="si-ico">⭐</span> Sistema de estrelas</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item"><span class="si-ico">👨‍👧</span> Jogo colaborativo</div>
+    <div class="strip-dot"></div>
+    <div class="strip-item"><span class="si-ico">📱</span> Optimizado para iPad</div>
+  </div>
+
+  <!-- ━━━━━━━━ HOW IT WORKS ━━━━━━━━ -->
+  <section class="section" id="como-funciona">
+    <div class="section-label">Como funciona</div>
+    <div class="section-title">Três passos simples para jogar juntos</div>
+    <div class="steps-grid">
+      <div class="step-card reveal" data-num="1">
+        <div class="step-icon">🃏</div>
+        <div class="step-title">Adulto lê a carta</div>
+        <div class="step-desc">O adulto recebe uma descrição curta — pode ler em voz alta, imitar ou fazer gestos. A criança não vê a carta.</div>
+      </div>
+      <div class="step-card reveal" data-num="2" style="transition-delay:.1s">
+        <div class="step-icon">✏️</div>
+        <div class="step-title">Criança interpreta</div>
+        <div class="step-desc">A criança usa o quadro branco para desenhar o que entendeu. Tem 30 a 60 segundos — dependendo do nível.</div>
+      </div>
+      <div class="step-card reveal" data-num="3" style="transition-delay:.2s">
+        <div class="step-icon">🏆</div>
+        <div class="step-title">Adulto avalia</div>
+        <div class="step-desc">O adulto decide se o desenho representa a carta. Acertou → próxima carta. Errou → a carta volta para tentar de novo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━━━━━━ LEVELS ━━━━━━━━ -->
+  <section class="levels-section">
+    <div class="section-label">Progressão</div>
+    <div class="section-title" style="color:#fff">3 níveis que crescem com a criança</div>
+    <div class="levels-grid">
+      <div class="level-card level-card-1 lvl1 reveal">
+        <div class="level-timer-badge">⏱ 60s</div>
+        <div class="level-emoji">🟡</div>
+        <div class="level-badge-pill">Nível 1</div>
+        <div class="level-card-title">Concreto</div>
+        <div class="level-card-desc">Objetos e animais do cotidiano. Associação direta e intuitiva.</div>
+        <div class="level-card-examples">
+          <span class="example-chip">Gato</span>
+          <span class="example-chip">Banana</span>
+          <span class="example-chip">Chuva</span>
+          <span class="example-chip">Bicicleta</span>
+        </div>
+      </div>
+      <div class="level-card level-card-2 lvl2 reveal" style="transition-delay:.1s">
+        <div class="level-timer-badge">⏱ 45s</div>
+        <div class="level-emoji">🟠</div>
+        <div class="level-badge-pill">Nível 2</div>
+        <div class="level-card-title">Ação</div>
+        <div class="level-card-desc">Verbos e movimentos. A criança representa situações em movimento.</div>
+        <div class="level-card-examples">
+          <span class="example-chip">Correr</span>
+          <span class="example-chip">Nadar</span>
+          <span class="example-chip">Abraçar</span>
+          <span class="example-chip">Voar</span>
+        </div>
+      </div>
+      <div class="level-card level-card-3 lvl3 reveal" style="transition-delay:.2s">
+        <div class="level-timer-badge">⏱ 30s</div>
+        <div class="level-emoji">🔴</div>
+        <div class="level-badge-pill">Nível 3</div>
+        <div class="level-card-title">Abstrato</div>
+        <div class="level-card-desc">Emoções e sentimentos. O maior desafio — e o mais rico em conversa.</div>
+        <div class="level-card-examples">
+          <span class="example-chip">Feliz</span>
+          <span class="example-chip">Com medo</span>
+          <span class="example-chip">Orgulhoso</span>
+          <span class="example-chip">Entediado</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━━━━━━ TIPS ━━━━━━━━ -->
+  <section class="section">
+    <div class="section-label">Para os pais</div>
+    <div class="section-title">Como aproveitar ao máximo</div>
+    <div class="tips-grid">
+      <div class="tip-card reveal">
+        <div class="tip-icon">🧠</div>
+        <div class="tip-title">Deixe a criança interpretar</div>
+        <div class="tip-text">Permita que ela pense e desenhe livremente. Uma banana pode virar um macaco com a fruta — e está ótimo. O objetivo é estimular associação de ideias.</div>
+      </div>
+      <div class="tip-card reveal" style="transition-delay:.1s">
+        <div class="tip-icon">🎨</div>
+        <div class="tip-title">Aprender sem medo de errar</div>
+        <div class="tip-text">Evite corrigir de forma negativa. O mais importante é desenvolver raciocínio, criatividade e confiança — não acertar perfeitamente.</div>
+        <div class="tip-quote">"Gostei da sua ideia!" · "Me explica o que você desenhou?"</div>
+      </div>
+      <div class="tip-card reveal" style="transition-delay:.2s">
+        <div class="tip-icon">⭐</div>
+        <div class="tip-title">Valorize o esforço</div>
+        <div class="tip-text">Incentive a criança a explicar o que criou. Isso fortalece linguagem, organização do pensamento e expressão emocional.</div>
+        <div class="tip-quote">"O que está acontecendo aqui?" · "Por que você escolheu essas cores?"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━━━━━━ DOWNLOAD CTA ━━━━━━━━ -->
+  <section class="cta-section" id="download">
+    <div class="cta-text">
+      <div class="section-label">Download</div>
+      <div class="section-title">Comece a jogar hoje, de graça</div>
+      <p class="cta-desc">Disponível para iPad. Sem anúncios, sem compras dentro do app. Basta baixar e jogar junto com a criança.</p>
+      <div class="cta-btns">
+        <div class="qr-box">
+          <div class="qr-grid" id="qrGrid"></div>
+          <div class="qr-label">🔗 Link em breve</div>
+          <div class="qr-sub">Aponte a câmara do iPad para descarregar</div>
+        </div>
+      </div>
+    </div>
+    <div class="cta-visual">
+      <div class="device-spec">
+        <span class="ds-icon">📱</span>
+        <div class="ds-info">
+          <div class="ds-name">iPad (todos os modelos)</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">iPadOS 16 ou superior</div>
+        </div>
+        <span class="ds-check">✓</span>
+      </div>
+      <div class="device-spec">
+        <span class="ds-icon">📲</span>
+        <div class="ds-info">
+          <div class="ds-name">iPhone compatível</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">iOS 16 ou superior</div>
+        </div>
+        <span class="ds-check">✓</span>
+      </div>
+      <div class="device-spec" style="background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3)">
+        <span class="ds-icon">✨</span>
+        <div class="ds-info">
+          <div class="ds-name">Optimizado para iPad 11"</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Layout horizontal · Dois jogadores</div>
+        </div>
+        <span class="ds-version">Recomendado</span>
+      </div>
+      <div class="device-spec">
+        <span class="ds-icon">📵</span>
+        <div class="ds-info">
+          <div class="ds-name">Funciona sem internet</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Sem anúncios · Sem subscrição</div>
+        </div>
+        <span class="ds-check">✓</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ━━━━━━━━ FOOTER ━━━━━━━━ -->
+  <footer>
+    <div class="footer-brand">🎨 Rabiscoo</div>
+    <div class="footer-copy">© 2026 Rabiscoo. Todos os direitos reservados.<br>App by Raquel Rigoni</div>
+  </footer>
+
+</div>
+
+<script>
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => obs.observe(el));
+
+// ── DECORATIVE QR ──
+const qr = document.getElementById('qrGrid');
+const pattern = [
+  1,1,1,1,1,1,1,
+  1,0,0,0,0,0,1,
+  1,0,1,0,1,0,1,
+  1,0,0,1,0,0,1,
+  1,0,1,0,1,0,1,
+  1,0,0,0,0,0,1,
+  1,1,1,1,1,1,1,
+];
+pattern.forEach(v => {
+  const c = document.createElement('div');
+  c.className = 'qr-cell' + (v ? ' on' : '');
+  qr.appendChild(c);
+});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
