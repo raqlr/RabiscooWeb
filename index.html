@@ -653,30 +653,26 @@ body::before {
 .dc-arrow { color: rgba(255,255,255,.35); font-size: 20px; }
 
 .qr-box {
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.65);
   border-radius: 20px;
-  padding: 28px 28px 22px;
+  padding: 20px 20px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   border: 2px dashed rgba(0,0,0,.18);
-  max-width: 260px;
+  max-width: 240px;
   transition: border-color .2s, background .2s;
 }
-.qr-box:hover { border-color: rgba(0,0,0,.35); background: rgba(255,255,255,0.7); }
-.qr-grid {
-  width: 120px; height: 120px;
-  background: var(--ink);
+.qr-box:hover { border-color: rgba(0,0,0,.35); background: rgba(255,255,255,0.85); }
+.qr-img {
+  width: 170px;
+  height: 170px;
   border-radius: 12px;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(7, 1fr);
-  padding: 10px;
-  gap: 3px;
+  display: block;
+  object-fit: cover;
+  border: 3px solid rgba(0,0,0,.06);
 }
-.qr-cell { border-radius: 2px; background: transparent; }
-.qr-cell.on { background: #fff; }
 .qr-label {
   font-size: 13px;
   font-weight: 800;
@@ -1027,8 +1023,8 @@ footer {
       <p class="cta-desc">Disponível para iPad. Sem anúncios, sem compras dentro do app. Basta baixar e jogar junto com a criança.</p>
       <div class="cta-btns">
         <div class="qr-box">
-          <div class="qr-grid" id="qrGrid"></div>
-          <div class="qr-label">🔗 Link em breve</div>
+          <img src="rabiscoo-qr.jpeg" alt="QR Code Rabiscoo" class="qr-img"/>
+          <div class="qr-label">🔗 Aceda ao link</div>
           <div class="qr-sub">Aponte a câmara do iPad para descarregar</div>
         </div>
       </div>
@@ -1071,7 +1067,9 @@ footer {
 
   <!-- ━━━━━━━━ FOOTER ━━━━━━━━ -->
   <footer>
-    <div class="footer-brand">🎨 Rabiscoo</div>
+    <div class="footer-brand">
+      <img src="rabiscoo-logo.gif" alt="Rabiscoo" style="height:48px;border-radius:10px;"/>
+    </div>
     <div class="footer-copy">© 2026 Rabiscoo. Todos os direitos reservados.<br>App by Raquel Rigoni</div>
   </footer>
 
@@ -1086,23 +1084,6 @@ const obs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12 });
 revealEls.forEach(el => obs.observe(el));
-
-// ── DECORATIVE QR ──
-const qr = document.getElementById('qrGrid');
-const pattern = [
-  1,1,1,1,1,1,1,
-  1,0,0,0,0,0,1,
-  1,0,1,0,1,0,1,
-  1,0,0,1,0,0,1,
-  1,0,1,0,1,0,1,
-  1,0,0,0,0,0,1,
-  1,1,1,1,1,1,1,
-];
-pattern.forEach(v => {
-  const c = document.createElement('div');
-  c.className = 'qr-cell' + (v ? ' on' : '');
-  qr.appendChild(c);
-});
 
 // ── SMOOTH SCROLL ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {
