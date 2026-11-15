@@ -1,0 +1,17 @@
+/* One continuous illustration across the complete scrolling page. */
+body.storybook-page {
+  background-color: #FFF8E8;
+  background-image: url('../Images/storybook-background.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+/* Let the artwork show through; canvas, cards, and buttons retain their fills. */
+body.storybook-page > header,
+body.storybook-page > section,
+body.storybook-page > footer {
+  background-color: transparent;
+  background-image: none;
+}

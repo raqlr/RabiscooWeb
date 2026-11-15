@@ -1,0 +1,69 @@
+/* Shared rhythm: compact sections, comfortable reading widths, balanced artwork. */
+.storybook-page { --page-width: 1100px; }
+.storybook-page > header { padding: 18px max(20px, calc((100% - var(--page-width)) / 2)); gap: 16px; }
+.storybook-page > header > nav { display: flex; gap: 20px; font-size: 15px; }
+.storybook-page > section:not(#canvas-demo) { padding: 48px 24px; }
+.storybook-page > section > .grid,
+.storybook-page .hero-layout,
+.storybook-page .video-layout { max-width: var(--page-width); gap: 40px; }
+.storybook-page h1 { font-size: clamp(36px, 4.5vw, 58px); line-height: 1.12; }
+.storybook-page h2 { font-size: clamp(28px, 3vw, 40px); line-height: 1.2; text-wrap: balance; }
+.storybook-page section p { font-size: 16px; line-height: 1.7; }
+.storybook-page section p.text-xs { font-size: 12px; }
+.storybook-page [data-purpose="hero-banner"] { padding-top: 32px; padding-bottom: 32px; }
+.storybook-page .hero-layout { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.storybook-page .hero-copy { width: 100%; max-width: 720px; text-align: center; }
+.storybook-page .hero-layout > div { grid-column: auto; min-width: 0; }
+.storybook-page .hero-layout > div:first-child { padding-top: 0; }
+.storybook-page .hero-layout > div:first-child > * + * { margin-top: 20px; }
+.storybook-page .hero-layout p { max-width: 44ch; margin-inline: auto; font-size: 18px; }
+.storybook-page [data-purpose="hero-banner"] .tracking-widest { letter-spacing: .06em; gap: 12px; font-size: 10px; }
+.storybook-page #canvas-demo { padding-top: 96px; padding-bottom: 56px; border-bottom: 0; }
+.storybook-page .whiteboard-intro { max-width: 720px; margin-bottom: 32px; }
+.storybook-page .whiteboard-intro > p { max-width: 52ch; }
+.storybook-page .whiteboard-frame { max-width: 960px; padding: 20px; border-width: 3px; }
+.storybook-page #characters blockquote { font-size: clamp(20px, 2.3vw, 28px); line-height: 1.5; }
+.storybook-page #characters .w-64,
+.storybook-page #coming-soon .w-64 { width: min(100%, 240px); }
+.storybook-page #devices > .grid,
+.storybook-page #coming-soon > .grid,
+.storybook-page #characters > .grid { grid-template-columns: .85fr 1.15fr; }
+.storybook-page #devices > .grid { grid-template-columns: 1.15fr .85fr; }
+.storybook-page #devices > .grid > div,
+.storybook-page #coming-soon > .grid > div,
+.storybook-page #characters > .grid > div { grid-column: auto; min-width: 0; }
+.storybook-page #devices > .grid > div { order: initial; }
+.storybook-page #devices li { align-items: flex-start; font-size: 14px; }
+.storybook-page #devices li > span { flex-shrink: 0; margin-top: 2px; }
+.storybook-page .video-layout { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; }
+.storybook-page .video-art > div { max-width: 390px; padding: 16px; border-radius: 28px; }
+.storybook-page .video-art .sm\:p-10 { padding: 24px; }
+.storybook-page #videos > .absolute { opacity: .35; }
+.storybook-page #coming-soon form { max-width: 480px; }
+.storybook-page #coming-soon form > input { min-width: 0; }
+.storybook-page > footer { padding: 36px 24px 24px; }
+.storybook-page > footer > div { max-width: var(--page-width); }
+.storybook-page > footer > .grid { gap: 28px; padding-bottom: 28px; }
+@media (max-width: 1023px) {
+  .storybook-page > header > nav { order: 3; width: 100%; overflow-x: auto; white-space: nowrap; padding: 5px 0 8px; gap: 22px; }
+  .storybook-page .hero-layout { gap: 24px; }
+}
+@media (max-width: 767px) {
+  .storybook-page > section:not(#canvas-demo) { padding: 32px 20px; }
+  .storybook-page .hero-layout,
+  .storybook-page .video-layout,
+  .storybook-page #characters > .grid,
+  .storybook-page #devices > .grid,
+  .storybook-page #coming-soon > .grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .storybook-page .hero-layout p { max-width: 44ch; font-size: 16px; }
+  .storybook-page .hero-layout > div:first-child > * + * { margin-top: 16px; }
+  .storybook-page .whiteboard-frame { padding: 12px; }
+  .storybook-page #canvas-demo { padding-top: 96px; padding-bottom: 56px; }
+  .storybook-page #characters .w-64,
+  .storybook-page #coming-soon .w-64 { width: 180px; }
+  .storybook-page #devices > .grid > div:last-child > div { width: 240px; }
+  .storybook-page #videos > .absolute { display: none; }
+  .storybook-page .video-art > div { max-width: 340px; }
+  .storybook-page #coming-soon form { flex-wrap: wrap; }
+  .storybook-page #coming-soon form > input { flex-basis: 220px; }
+}
