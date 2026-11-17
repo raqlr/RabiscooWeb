@@ -1,8 +1,8 @@
-/* One continuous illustration across the complete scrolling page. */
+/* Fit artwork to screen width without scaling it to the full document height. */
 body.storybook-page {
   background-color: #FFF8E8;
   background-image: url('../Images/storybook-background.png');
-  background-size: cover;
+  background-size: 100% auto;
   background-position: center top;
   background-repeat: no-repeat;
   background-attachment: scroll;

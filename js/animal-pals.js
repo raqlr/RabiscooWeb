@@ -2,13 +2,21 @@
   const wall = document.getElementById('picture-wall');
   const pictures = [...wall.querySelectorAll('.picture')];
   const status = document.getElementById('wall-status');
-  const storageKey = 'rabiscoo-picture-wall-v1';
+  const storageKey = wall.dataset.storageKey || 'rabiscoo-picture-wall-v1';
   let positions = {}, topLayer = 1, drag = null;
   try { positions = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch {}
   if (!positions || typeof positions !== 'object' || Array.isArray(positions)) positions = {};
   const clamp = (value, max) => Math.max(0, Math.min(value, Math.max(0, max)));
   function defaults(index) {
     const narrow = wall.clientWidth < 640;
+    if (pictures.length > 5) {
+      const columns = narrow ? 2 : 3;
+      const rows = Math.ceil(pictures.length / columns);
+      const row = Math.floor(index / columns);
+      const count = Math.min(columns, pictures.length - row * columns);
+      const column = index % columns + (columns - count) / 2;
+      return [column / (columns - 1), rows > 1 ? row / (rows - 1) : 0.5];
+    }
     return narrow ? [[.03,.02],[.97,.08],[.03,.48],[.97,.53],[.5,.94]][index]
       : [[.02,.04],[.5,.02],[.98,.04],[.22,.85],[.78,.85]][index];
   }
