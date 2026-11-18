@@ -226,6 +226,7 @@
 <p class="font-body text-stone-600 text-lg max-w-xl mx-auto">
         Choose a color, slide to change its size, and draw. Add a shape to trace, or create your own.
       </p>
+<p class="color-page-status" id="colorPageStatus" aria-live="polite" hidden></p>
 </div>
 <!-- Canvas Frame Container (Wooden Easel/Desk Vibe) -->
 <div class="whiteboard-frame max-w-4xl mx-auto bg-white rounded-3xl p-4 sm:p-7 shadow-paper-card border-4 border-[#EAD7C2] relative">
@@ -241,6 +242,7 @@
 
 <button type="button" class="move-stickers-btn px-3 py-2 rounded-full font-display font-bold text-xs border disabled:opacity-40" id="moveStickersBtn" aria-pressed="false" disabled>Move stickers</button><button type="button" class="px-3 py-2 rounded-full bg-red-50 hover:bg-red-100 text-crayon-red font-display font-bold text-xs border border-red-200 disabled:opacity-40 disabled:cursor-not-allowed" id="removeStickerBtn" disabled>Remove Sticker</button>
 <div class="whiteboard-file-actions" aria-label="Drawing actions">
+<button type="button" class="px-3.5 py-1.5 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-800 font-display font-bold text-xs sm:text-sm border border-purple-200 transition-colors" id="removeColoringPageBtn" hidden>Remove page</button>
 <!-- Clear Canvas Button -->
 <button class="px-3.5 py-1.5 rounded-full bg-red-50 hover:bg-red-100 text-crayon-red font-display font-bold text-xs sm:text-sm border border-red-200 transition-colors" id="clearBtn">
             Clear
@@ -289,13 +291,13 @@
 <div class="gallery-corner">
 <p class="gallery-hint" id="gallery-help">Drag the pictures to find their happy place.</p>
 <div class="picture-wall frame-art-wall" id="picture-wall" data-storage-key="rabiscoo-frame-art-wall-v1" aria-label="Rearrange the decorative art frames" aria-describedby="gallery-help">
-<button type="button" class="picture" data-id="frame-art-1" aria-label="Move art frame 1" style="--tilt:-3deg"><img src="Images/FrameArt.png" alt="Decorative art frame 1" draggable="false" loading="lazy"></button>
-<button type="button" class="picture" data-id="frame-art-2" aria-label="Move art frame 2" style="--tilt:2deg"><img src="Images/FrameArt2.png" alt="Decorative art frame 2" draggable="false" loading="lazy"></button>
-<button type="button" class="picture" data-id="frame-art-3" aria-label="Move art frame 3" style="--tilt:-2deg"><img src="Images/FrameArt3.png" alt="Decorative art frame 3" draggable="false" loading="lazy"></button>
-<button type="button" class="picture" data-id="frame-art-4" aria-label="Move art frame 4" style="--tilt:3deg"><img src="Images/FrameArt4.png" alt="Decorative art frame 4" draggable="false" loading="lazy"></button>
-<button type="button" class="picture" data-id="frame-art-7" aria-label="Move art frame 7" style="--tilt:-3deg"><img src="Images/FrameArt7.png" alt="Decorative art frame 7" draggable="false" loading="lazy"></button>
-<button type="button" class="picture" data-id="frame-art-8" aria-label="Move art frame 8" style="--tilt:2deg"><img src="Images/FrameArt8.png" alt="Decorative art frame 8" draggable="false" loading="lazy"></button>
-<button type="button" class="picture" data-id="frame-art-9" aria-label="Move art frame 9" style="--tilt:-1deg"><img src="Images/FrameArt9.png" alt="Decorative art frame 9" draggable="false" loading="lazy"></button>
+<button type="button" class="picture" data-id="frame-art-1" aria-label="Move frame 1 with the Reading coloring page" style="--tilt:-3deg"><img class="picture-frame" src="Images/FrameArt.png" alt="Frame 1 with the Reading coloring page" draggable="false" loading="lazy"><span class="picture-page-window"><img src="RabiscooColorbook/ReadingColorpage.png" alt="" draggable="false" loading="lazy"></span></button>
+<button type="button" class="picture" data-id="frame-art-2" aria-label="Move frame 2 with the Lea Bear coloring page" style="--tilt:2deg"><img class="picture-frame" src="Images/FrameArt2.png" alt="Frame 2 with the Lea Bear coloring page" draggable="false" loading="lazy"><span class="picture-page-window"><img src="RabiscooColorbook/Lea-BearColorpage.png" alt="" draggable="false" loading="lazy"></span></button>
+<button type="button" class="picture" data-id="frame-art-3" aria-label="Move frame 3 with the easel coloring page" style="--tilt:-2deg"><img class="picture-frame" src="Images/FrameArt3.png" alt="Frame 3 with the easel coloring page" draggable="false" loading="lazy"><span class="picture-page-window"><img src="RabiscooColorbook/ColorpagePortrait2.png" alt="" draggable="false" loading="lazy"></span></button>
+<button type="button" class="picture" data-id="frame-art-4" aria-label="Move frame 4 with the painting coloring page" style="--tilt:3deg"><img class="picture-frame" src="Images/FrameArt4.png" alt="Frame 4 with the painting coloring page" draggable="false" loading="lazy"><span class="picture-page-window"><img src="RabiscooColorbook/PaintingColorpage.png" alt="" draggable="false" loading="lazy"></span></button>
+<button type="button" class="picture" data-id="frame-art-7" aria-label="Move frame 7 with the portrait coloring page" style="--tilt:-3deg"><img class="picture-frame" src="Images/FrameArt7.png" alt="Frame 7 with a portrait coloring page" draggable="false" loading="lazy"><span class="picture-page-window"><img src="RabiscooColorbook/ColorpagePortrait4.png" alt="" draggable="false" loading="lazy"></span></button>
+<button type="button" class="picture" data-id="frame-art-8" aria-label="Move frame 8 with the cover coloring page" style="--tilt:2deg"><img class="picture-frame" src="Images/FrameArt8.png" alt="Frame 8 with the cover coloring page" draggable="false" loading="lazy"><span class="picture-page-window"><img src="RabiscooColorbook/CoverColorpage.png" alt="" draggable="false" loading="lazy"></span></button>
+<button type="button" class="picture" data-id="frame-art-9" aria-label="Move frame 9 with the garden coloring page" style="--tilt:-1deg"><img class="picture-frame" src="Images/FrameArt9.png" alt="Frame 9 with the garden coloring page" draggable="false" loading="lazy"><span class="picture-page-window"><img src="RabiscooColorbook/ColorpagePortrait3.png" alt="" draggable="false" loading="lazy"></span></button>
 </div><p class="sr-only" role="status" id="wall-status"></p>
 </div></div>
 </section>
@@ -306,6 +308,12 @@
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('drawingCanvas');
       const ctx = canvas.getContext('2d');
+      const drawingSurface = canvas.parentElement;
+      const colorPageStatus = document.getElementById('colorPageStatus');
+      const removeColoringPageBtn = document.getElementById('removeColoringPageBtn');
+      const pictureWall = document.getElementById('picture-wall');
+      let coloringPageImage = null;
+      let pageSelection = 0;
       const stickerCanvas = document.getElementById('stickerCanvas');
       const stickerCtx = stickerCanvas.getContext('2d');
       const removeStickerBtn = document.getElementById('removeStickerBtn');
@@ -318,6 +326,39 @@
       const clearBtn = document.getElementById('clearBtn');
       const downloadBtn = document.getElementById('downloadBtn');
       const stampBtns = document.querySelectorAll('.stamp-btn');
+
+      pictureWall.addEventListener('pictureselect', event => {
+        const pageUrl = event.detail?.page;
+        if (!pageUrl) return;
+        const selection = ++pageSelection;
+        const image = new Image();
+        image.onload = () => {
+          if (selection !== pageSelection) return;
+          coloringPageImage = image;
+          drawingSurface.classList.add('color-page-active');
+          drawingSurface.style.backgroundImage = `url("${pageUrl}")`;
+          removeColoringPageBtn.hidden = false;
+          colorPageStatus.textContent = `${event.detail.label} is ready. Choose a crayon and color it in.`;
+          colorPageStatus.hidden = false;
+          if (helperPrompt) helperPrompt.remove();
+          const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          document.getElementById('canvas-demo').scrollIntoView({ behavior:reduceMotion ? 'auto' : 'smooth', block:'start' });
+        };
+        image.onerror = () => {
+          if (selection !== pageSelection) return;
+          colorPageStatus.textContent = 'This coloring page could not be opened. Please try another picture.';
+          colorPageStatus.hidden = false;
+        };
+        image.src = pageUrl;
+      });
+      removeColoringPageBtn.addEventListener('click', () => {
+        pageSelection++;
+        coloringPageImage = null;
+        drawingSurface.classList.remove('color-page-active');
+        drawingSurface.style.backgroundImage = 'none';
+        removeColoringPageBtn.hidden = true;
+        colorPageStatus.textContent = 'Coloring page removed. Your crayon marks remain.';
+      });
 
       // State variables
       let isDrawing = false;
@@ -579,11 +620,19 @@
       // Download / Save Canvas Artwork
       downloadBtn.addEventListener('click', () => {
         const link = document.createElement('a');
-        link.download = 'My-DoodlePals-Artwork.png';
+        link.download = coloringPageImage ? 'My-Rabiscoo-Coloring-Page.png' : 'My-DoodlePals-Artwork.png';
         const artwork = document.createElement('canvas');
         artwork.width = canvas.width;
         artwork.height = canvas.height;
         const artworkCtx = artwork.getContext('2d');
+        if (coloringPageImage) {
+          const scale = Math.min(artwork.width / coloringPageImage.naturalWidth, artwork.height / coloringPageImage.naturalHeight);
+          const width = coloringPageImage.naturalWidth * scale;
+          const height = coloringPageImage.naturalHeight * scale;
+          artworkCtx.fillStyle = '#fffdf9';
+          artworkCtx.fillRect(0, 0, artwork.width, artwork.height);
+          artworkCtx.drawImage(coloringPageImage, (artwork.width - width) / 2, (artwork.height - height) / 2, width, height);
+        }
         artworkCtx.drawImage(stickerCanvas, 0, 0);
         artworkCtx.drawImage(canvas, 0, 0);
         link.href = artwork.toDataURL('image/png');

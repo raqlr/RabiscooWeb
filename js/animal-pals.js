@@ -45,22 +45,38 @@
       if (!event.isPrimary || event.button !== 0 || drag) return;
       picture.focus({preventScroll:true});
       picture.style.zIndex = ++topLayer;
-      drag = { picture, pointerId:event.pointerId, x:event.clientX, y:event.clientY, left:parseFloat(picture.style.left)-8, top:parseFloat(picture.style.top)-8 };
+      drag = { picture, pointerId:event.pointerId, x:event.clientX, y:event.clientY, left:parseFloat(picture.style.left)-8, top:parseFloat(picture.style.top)-8, moved:false };
+      event.preventDefault();
       picture.setPointerCapture(event.pointerId);
       picture.classList.add('is-dragging');
     });
     picture.addEventListener('pointermove', event => {
       if (!drag || drag.picture !== picture || drag.pointerId !== event.pointerId) return;
+      if (Math.hypot(event.clientX-drag.x, event.clientY-drag.y) > 6) drag.moved = true;
       place(picture, drag.left + event.clientX - drag.x, drag.top + event.clientY - drag.y);
     });
     function finish(event) {
       if (!drag || drag.picture !== picture || drag.pointerId !== event.pointerId) return;
+      const wasClick = event.type === 'pointerup' && !drag.moved;
+      const wasDrag = drag.moved;
       picture.classList.remove('is-dragging');
       drag = null;
       save();
-      status.textContent = `${picture.querySelector('img').alt} moved.`;
+      if (wasClick) {
+        const page = picture.querySelector('.picture-page-window img');
+        const frame = picture.querySelector('.picture-frame');
+        picture.dispatchEvent(new CustomEvent('pictureselect', { bubbles:true, detail:{ page:page?.src, label:frame?.alt || 'Coloring page' } }));
+      } else if (wasDrag) {
+        status.textContent = `${picture.querySelector('.picture-frame')?.alt || 'Picture'} moved.`;
+      }
     }
     ['pointerup','pointercancel','lostpointercapture'].forEach(name => picture.addEventListener(name, finish));
+    picture.addEventListener('click', event => {
+      if (event.detail !== 0) return;
+      const page = picture.querySelector('.picture-page-window img');
+      const frame = picture.querySelector('.picture-frame');
+      picture.dispatchEvent(new CustomEvent('pictureselect', { bubbles:true, detail:{ page:page?.src, label:frame?.alt || 'Coloring page' } }));
+    });
     picture.addEventListener('keydown', event => {
       const directions = {ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
       const direction = directions[event.key];

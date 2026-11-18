@@ -32,6 +32,10 @@
 .rabiscoo-home .whiteboard-frame { max-width:980px; padding:20px 24px; background:#fffdf9f5; border:1px solid #dcc4d1; border-radius:24px; box-shadow:0 16px 48px #74134c10; }
 .rabiscoo-home .whiteboard-frame > div:first-child { padding-bottom:12px; gap:12px; border-color:#ebdae3; }
 .rabiscoo-home #drawingCanvas { background:transparent; }
+.rabiscoo-home .drawing-surface.color-page-active { background-color:#fffdf9; background-position:center; background-repeat:no-repeat; background-size:contain; }
+.rabiscoo-home .color-page-status { margin:0 auto; color:#955476; font-size:13px; font-weight:700; }
+.rabiscoo-home .color-page-status[hidden],
+.rabiscoo-home #removeColoringPageBtn[hidden] { display:none; }
 .rabiscoo-home #canvasHelperPrompt { color:#baa5b1; text-align:center; font-size:26px; }
 .rabiscoo-home #canvasHelperPrompt > span:last-child { font-size:11px; }
 .rabiscoo-home #colorPalette > span, .rabiscoo-home label[for="brushSize"] { color:#866175; }
@@ -50,6 +54,16 @@
 .picture-wall { position:relative; height:500px; width:100%; isolation:isolate; }
 .picture { position:absolute; width:29%; padding:0; border:0; background:none; transform:rotate(var(--tilt)); touch-action:none; cursor:grab; user-select:none; border-radius:45%; filter:drop-shadow(0 6px 5px #65213f29); }
 .picture img { width:100%; height:auto; display:block; pointer-events:none; }
+.picture-page-window { position:absolute; z-index:0; overflow:hidden; background:#fff; }
+.picture-page-window img { width:100%; height:100%; object-fit:cover; }
+.picture img.picture-frame { position:relative; z-index:1; }
+.picture[data-id="frame-art-1"] .picture-page-window { left:19%; top:14%; width:62%; height:72%; }
+.picture[data-id="frame-art-2"] .picture-page-window { left:15%; top:17%; width:68%; height:65%; border-radius:50%; }
+.picture[data-id="frame-art-3"] .picture-page-window { left:19%; top:17%; width:61%; height:64%; }
+.picture[data-id="frame-art-4"] .picture-page-window { left:23.5%; top:18.5%; width:53%; height:62.5%; }
+.picture[data-id="frame-art-7"] .picture-page-window { left:18%; top:15.5%; width:64%; height:66.5%; }
+.picture[data-id="frame-art-8"] .picture-page-window { left:24.5%; top:30%; width:51%; height:37%; }
+.picture[data-id="frame-art-9"] .picture-page-window { left:15.5%; top:17%; width:68%; height:68%; border-radius:50%; }
 .picture.is-dragging { cursor:grabbing; }
 .picture:focus { outline:none; }
 .gallery-link { font-size:13px; font-weight:700; text-decoration:none; display:inline-block; padding:12px; }
